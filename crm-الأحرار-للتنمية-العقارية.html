@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#10233f">
+<title>الأحرار للتنمية العقارية | نظام إدارة العملاء والإعلانات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --main:#10233f; --main-2:#173b66; --main-hover:#0c1c33; --accent:#c9973f; --accent-2:#e0b25f;
+  --bg:#f4f6f9; --card:#ffffff; --border:#e6e9ef;
+  --text:#101828; --text-muted:#667085;
+  --danger:#e0473f; --danger-bg:#fdeceb;
+  --success:#1a9b62; --success-bg:#e7f8ef;
+  --warning:#d98a13; --warning-bg:#fdf3e0;
+  --info:#2563eb; --info-bg:#eaf1fe;
+  --muted-badge:#6b7280; --muted-badge-bg:#eef0f2;
+  --shadow-sm:0 1px 3px rgba(16,24,40,0.06), 0 1px 2px rgba(16,24,40,0.04);
+  --shadow-md:0 4px 12px rgba(16,24,40,0.08);
+  --radius:14px; --radius-sm:10px;
+}
+*{ box-sizing:border-box; margin:0; padding:0; font-family:'Tajawal','Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+html,body{ height:100%; }
+body{
+  background:var(--bg); color:var(--text); line-height:1.6;
+  padding-bottom:calc(78px + env(safe-area-inset-bottom));
+  min-height:100vh; -webkit-tap-highlight-color:transparent;
+}
+::-webkit-scrollbar{ width:8px; height:8px; }
+::-webkit-scrollbar-thumb{ background:#cbd3dd; border-radius:10px; }
+
+/* ---------- Login ---------- */
+#loginBox{
+  min-height:100vh; width:100%; display:flex; align-items:center; justify-content:center;
+  padding:24px; background:linear-gradient(160deg,var(--main) 0%, var(--main-2) 55%, var(--main) 100%);
+}
+#loginBox .login-card{
+  width:100%; max-width:400px; background:var(--card); border-radius:20px;
+  padding:34px 28px; box-shadow:0 20px 50px rgba(0,0,0,0.25); text-align:center;
+}
+.login-logo{
+  width:66px; height:66px; border-radius:18px; margin:0 auto 16px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fff; font-weight:800; font-size:24px;
+  box-shadow:var(--shadow-md);
+}
+#loginBox h2{ font-size:19px; font-weight:800; color:var(--main); margin-bottom:4px; }
+#loginBox p.login-sub{ font-size:13px; color:var(--text-muted); margin-bottom:22px; }
+.field-label{ display:block; text-align:right; font-size:13px; font-weight:700; color:var(--text); margin-bottom:6px; }
+#loginBox .field{ text-align:right; margin-bottom:16px; }
+#loginErr{ color:var(--danger); margin-top:6px; font-size:13px; min-height:16px; }
+.login-btn{ width:100%; padding:13px; font-size:15px; }
+
+/* ---------- Inputs / buttons ---------- */
+input, select, textarea{
+  font-size:15px; padding:11px 13px; border-radius:var(--radius-sm); border:1.5px solid var(--border);
+  width:100%; outline:none; background:#fbfbfd; transition:border-color .15s, box-shadow .15s; color:var(--text);
+}
+input:focus, select:focus, textarea:focus{ border-color:var(--main-2); box-shadow:0 0 0 3px rgba(23,59,102,0.12); background:#fff; }
+textarea{ resize:vertical; min-height:64px; }
+button{ font-family:inherit; }
+button.primary{
+  background:var(--main); color:#fff; border:none; padding:12px 22px; border-radius:var(--radius-sm);
+  font-weight:700; font-size:14px; cursor:pointer; width:auto; transition:background .15s, transform .05s;
+}
+button.primary:hover{ background:var(--main-hover); }
+button.primary:active{ transform:scale(0.98); }
+button.primary:disabled{ opacity:0.6; cursor:not-allowed; }
+button.danger{ background:var(--danger-bg); color:var(--danger); border:1px solid #f6c7c3; font-weight:700; padding:9px 16px; border-radius:var(--radius-sm); cursor:pointer; }
+button.btn{ background:#eef1f5; color:var(--text); border:1px solid var(--border); padding:10px 18px; border-radius:var(--radius-sm); font-weight:700; cursor:pointer; }
+button.small{ padding:7px 12px; font-size:12.5px; border-radius:8px; }
+
+/* ---------- Header ---------- */
+.topbar{
+  background:var(--main); color:#fff; padding:14px 18px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:30; box-shadow:0 2px 10px rgba(0,0,0,0.12);
+}
+.brand{ display:flex; align-items:center; gap:11px; min-width:0; }
+.brand-logo{
+  width:42px; height:42px; flex:none; border-radius:11px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fff; font-weight:800; font-size:16px;
+}
+.brand-text{ display:flex; flex-direction:column; min-width:0; }
+.brand-text strong{ font-size:14.5px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.brand-text .brand-sub{ font-size:11.5px; color:rgba(255,255,255,0.75); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.logout-btn{
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); color:#fff; padding:9px 14px;
+  border-radius:var(--radius-sm); cursor:pointer; font-weight:700; font-size:13px; display:flex; align-items:center; gap:6px; flex:none;
+}
+.logout-btn:hover{ background:var(--danger); border-color:var(--danger); }
+
+/* ---------- Nav (tab strip on desktop / bottom bar on mobile) ---------- */
+nav.main-nav{
+  display:flex; background:var(--card); border-bottom:1px solid var(--border); position:sticky; top:58px; z-index:25;
+  box-shadow:var(--shadow-sm);
+}
+nav.main-nav button{
+  flex:1; background:transparent; border:none; color:var(--text-muted); padding:13px 6px; cursor:pointer;
+  font-weight:700; font-size:13px; display:flex; flex-direction:column; align-items:center; gap:3px;
+  border-bottom:3px solid transparent; transition:color .15s, border-color .15s;
+}
+nav.main-nav button .icon{ font-size:19px; line-height:1; }
+nav.main-nav button.active, nav.main-nav button:hover{ color:var(--main); }
+nav.main-nav button.active{ border-bottom-color:var(--accent); }
+
+/* ---------- Layout ---------- */
+.container{ max-width:1280px; margin:0 auto; padding:16px 14px 28px; }
+.card{
+  background:var(--card); border-radius:var(--radius); padding:18px; margin-bottom:16px;
+  box-shadow:var(--shadow-sm); border:1px solid var(--border);
+}
+.card h3{
+  margin-bottom:14px; font-size:15.5px; font-weight:800; color:var(--text); border-bottom:2px solid #f1f3f6;
+  padding-bottom:10px; display:flex; justify-content:space-between; align-items:center; gap:8px;
+}
+.card p.hint{ font-size:12.5px; color:var(--text-muted); margin-bottom:12px; }
+
+.grid-form{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px 14px; margin-bottom:6px; }
+.field{ display:flex; flex-direction:column; gap:6px; }
+.grid-filters{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-bottom:16px;
+  background:#f6f7fa; padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border);
+}
+
+/* ---------- Tables (desktop) + card view (mobile) ---------- */
+.table-container{ overflow-x:auto; }
+table{ width:100%; border-collapse:collapse; text-align:right; font-size:13.5px; }
+th, td{ padding:12px 10px; border-bottom:1px solid var(--border); }
+th{ background:#f8f9fb; color:var(--text-muted); font-weight:700; font-size:12.5px; white-space:nowrap; }
+tbody tr:hover{ background:#f8f9fb; }
+.empty-row td{ text-align:center; color:var(--text-muted); padding:26px 10px; font-size:13.5px; }
+
+.badge{ padding:4px 10px; border-radius:20px; font-size:11.5px; font-weight:800; display:inline-block; white-space:nowrap; }
+.badge-active{ background:#dcfce7; color:#16a34a; }
+.badge-pending{ background:var(--warning-bg); color:var(--warning); }
+.badge-danger{ background:var(--danger-bg); color:var(--danger); }
+.badge-info{ background:var(--info-bg); color:var(--info); }
+.badge-success{ background:var(--success-bg); color:var(--success); }
+.badge-muted{ background:var(--muted-badge-bg); color:var(--muted-badge); }
+
+/* ---------- Stats / timeline / notifications ---------- */
+.stats-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:8px; }
+.stat-card{
+  background:var(--card); padding:18px 14px; border-radius:var(--radius); text-align:center;
+  box-shadow:var(--shadow-sm); border:1px solid var(--border); border-top:4px solid var(--main);
+}
+.stat-card.accent{ border-top-color:var(--accent); }
+.stat-card b{ font-size:24px; display:block; color:var(--text); margin-bottom:4px; font-weight:800; }
+.stat-card span{ font-size:12px; color:var(--text-muted); font-weight:600; }
+
+.timeline{ border-right:3px solid var(--border); padding-right:16px; margin-top:14px; max-height:280px; overflow-y:auto; }
+.timeline-item{ margin-bottom:14px; position:relative; font-size:13px; }
+.timeline-item::before{
+  content:""; position:absolute; right:-24px; top:5px; width:11px; height:11px; border-radius:50%;
+  background:var(--accent); border:2px solid #fff; box-shadow:0 0 0 2px var(--border);
+}
+.timeline-item .t-time{ color:var(--text-muted); font-size:11px; display:block; margin-top:2px; }
+
+.notification-banner{
+  background:var(--info-bg); border-right:4px solid var(--info); padding:12px; border-radius:var(--radius-sm);
+  margin-bottom:16px; font-size:13.5px; display:flex; flex-direction:column; gap:8px; max-height:180px; overflow-y:auto;
+}
+.notification-banner > strong{ font-size:13px; }
+.notification-item{
+  display:flex; justify-content:space-between; align-items:center; background:#fff; padding:8px 12px;
+  border-radius:8px; box-shadow:var(--shadow-sm); gap:8px; font-size:12.8px;
+}
+
+/* ---------- Client detail modal ---------- */
+#clientDetail{
+  position:fixed; inset:0; z-index:100; background:var(--card); overflow-y:auto;
+  border-radius:0; margin:0; box-shadow:0 0 0 100vmax rgba(15,23,42,0.55);
+  animation:sheetIn .18s ease-out;
+}
+@keyframes sheetIn{ from{ opacity:0; transform:translateY(12px);} to{ opacity:1; transform:translateY(0);} }
+.flex-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:16px; flex-wrap:wrap; position:sticky; bottom:0; background:var(--card); padding-top:10px; }
+.flex-actions button{ flex:1; min-width:130px; }
+
+.hidden{ display:none !important; }
+
+/* ---------- Mobile-first: bottom tab bar ---------- */
+@media (max-width:899px){
+  nav.main-nav{
+    position:fixed; bottom:0; right:0; left:0; top:auto; z-index:40;
+    padding-bottom:env(safe-area-inset-bottom); box-shadow:0 -2px 12px rgba(0,0,0,0.08);
+  }
+  .brand-text .brand-sub{ max-width:150px; }
+}
+
+/* ---------- Responsive table -> card list ---------- */
+@media (max-width:768px){
+  .table-container table, .table-container thead, .table-container tbody, .table-container tr, .table-container th, .table-container td{ display:block; }
+  .table-container thead{ display:none; }
+  .table-container tbody{ display:flex; flex-direction:column; gap:10px; }
+  .table-container tr{
+    border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 12px; background:#fff;
+    box-shadow:var(--shadow-sm);
+  }
+  .table-container tr.empty-row{ box-shadow:none; border:none; padding:0; }
+  .table-container td{
+    display:flex; justify-content:space-between; align-items:center; gap:10px; border-bottom:1px dashed var(--border);
+    padding:8px 2px; font-size:13px; text-align:left;
+  }
+  .table-container td:last-child{ border-bottom:none; }
+  .table-container td::before{
+    content:attr(data-label); font-weight:800; color:var(--text-muted); font-size:11.5px; flex:none; margin-left:auto;
+  }
+  .table-container td[data-label]::before{ order:2; }
+  .table-container td > *{ order:1; }
+  #clientDetail .grid-form{ grid-template-columns:1fr; }
+}
+
+@media (min-width:900px){
+  body{ padding-bottom:0; }
+  nav.main-nav{ top:0; position:static; }
+  .container{ padding:22px 20px 40px; }
+  #clientDetail{
+    inset:auto; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:min(720px,92vw); max-height:88vh; border-radius:18px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="loginBox" class="hidden">
+  <div class="login-card">
+    <div class="login-logo">أح</div>
+    <h2>الأحرار للتنمية العقارية</h2>
+    <p class="login-sub">نظام إدارة العملاء والإعلانات — تسجيل الدخول</p>
+    <div class="field">
+      <label class="field-label" for="loginEmail">البريد الإلكتروني</label>
+      <input id="loginEmail" placeholder="example@company.com" type="email" autocomplete="username">
+    </div>
+    <div class="field">
+      <label class="field-label" for="loginPass">كلمة المرور</label>
+      <input id="loginPass" placeholder="••••••••" type="password" autocomplete="current-password">
+    </div>
+    <button class="primary login-btn" id="loginBtn" onclick="doLogin()">دخول</button>
+    <p id="loginErr"></p>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">أح</div>
+      <div class="brand-text">
+        <strong>الأحرار للتنمية العقارية</strong>
+        <span class="brand-sub" id="appTitle">نظام إدارة العملاء والإعلانات</span>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="logout()">
+      <span class="icon">⏻</span><span>خروج</span>
+    </button>
+  </header>
+
+  <nav class="main-nav">
+    <button id="navAds" onclick="showTab('ads')"><span class="icon">📢</span><span>الإعلانات</span></button>
+    <button id="navClients" onclick="showTab('clients')"><span class="icon">👥</span><span>العملاء</span></button>
+    <button id="navAdmin" onclick="showTab('admin')" class="hidden"><span class="icon">⚙️</span><span>لوحة التحكم</span></button>
+  </nav>
+
+  <div class="container">
+    <div id="notificationArea" class="notification-banner hidden">
+      <strong>🔔 التنبيهات والمواعيد القادمة</strong>
+      <div id="notificationList"></div>
+    </div>
+
+    <!-- ===================== ADS TAB ===================== -->
+    <div id="tab-ads" class="hidden">
+      <div class="card">
+        <h3>إضافة إعلان جديد</h3>
+        <div class="grid-form">
+          <div class="field"><label class="field-label">عنوان الإعلان *</label><input id="adTitle" placeholder="مثال: شقة 150م بالتجمع الخامس"></div>
+          <div class="field"><label class="field-label">رابط الإعلان</label><input id="adLink" placeholder="https://..."></div>
+          <div class="field"><label class="field-label">المنصة</label>
+            <select id="adPlatform">
+              <option>Facebook</option><option>Instagram</option><option>TikTok</option><option>Dubizzle</option><option>أخرى</option>
+            </select>
+          </div>
+          <div class="field"><label class="field-label">الوحدة / العقار المستهدف</label><input id="adUnit" placeholder="رقم أو اسم الوحدة"></div>
+          <div class="field"><label class="field-label">تاريخ النشر</label><input id="adDate" type="date"></div>
+          <div class="field"><label class="field-label">حالة الإعلان</label>
+            <select id="adStatus">
+              <option value="نشط">نشط</option><option value="متوقف">متوقف</option><option value="محذوف">محذوف</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:12px;">
+          <label class="field-label">تفاصيل إضافية</label>
+          <textarea id="adDetails" placeholder="وصف الإعلان..." rows="2"></textarea>
+        </div>
+        <button class="primary" onclick="addAd()">حفظ ونشر الإعلان</button>
+      </div>
+
+      <div class="card">
+        <h3>قائمة الإعلانات</h3>
+        <div class="grid-filters">
+          <input id="searchAdTitle" placeholder="🔍 بحث بعنوان الإعلان..." oninput="renderAds()">
+          <select id="searchAdPlatform" onchange="renderAds()">
+            <option value="">كل المنصات</option><option>Facebook</option><option>Instagram</option><option>TikTok</option><option>Dubizzle</option><option>أخرى</option>
+          </select>
+          <select id="searchAdStatus" onchange="renderAds()">
+            <option value="">كل الحالات</option><option value="نشط">نشط</option><option value="متوقف">متوقف</option><option value="محذوف">محذوف</option>
+          </select>
+        </div>
+        <div class="table-container">
+          <table id="adsTable">
+            <thead><tr><th>العنوان</th><th>المنصة</th><th>الوحدة</th><th>التاريخ</th><th>الحالة</th><th>بواسطة</th><th>التحكم</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== CLIENTS TAB ===================== -->
+    <div id="tab-clients" class="hidden">
+      <div class="card">
+        <h3>إضافة عميل جديد</h3>
+        <div class="grid-form">
+          <div class="field"><label class="field-label">اسم العميل الكامل *</label><input id="cName" placeholder="الاسم بالكامل"></div>
+          <div class="field"><label class="field-label">رقم الهاتف *</label><input id="cPhone" placeholder="01xxxxxxxxx" inputmode="tel"></div>
+          <div class="field"><label class="field-label">مصدر العميل</label><input id="cSource" placeholder="مثال: جوجل، ترشيح"></div>
+          <div class="field"><label class="field-label">ربط بإعلان</label><select id="cAd"><option value="">-- اختياري --</option></select></div>
+          <div class="field"><label class="field-label">الوحدة المطلوبة</label><input id="cUnit" placeholder="اسم أو رقم الوحدة"></div>
+          <div class="field"><label class="field-label">موعد المعاينة/الزيارة</label><input id="cVisitDate" type="datetime-local"></div>
+          <div class="field"><label class="field-label">احتمالية الشراء</label>
+            <select id="cProb">
+              <option value="منخفضة">منخفضة</option><option value="متوسطة" selected>متوسطة</option><option value="عالية">عالية</option>
+            </select>
+          </div>
+          <div class="field"><label class="field-label">حالة العميل</label>
+            <select id="cStatus">
+              <option>جديد</option><option>تم التواصل</option><option>لم يرد</option><option>تم تحديد موعد</option>
+              <option>تمت الزيارة</option><option>مهتم</option><option>تفاوض</option><option>حجز</option>
+              <option>تم البيع</option><option>لم يتم البيع</option><option>مؤجل</option><option>إلغاء</option>
+            </select>
+          </div>
+          <div class="field"><label class="field-label">موظف الإعلانات المسؤول</label><select id="cAdsEmp"><option value="">اختيار موظف الإعلانات</option></select></div>
+          <div class="field"><label class="field-label">موظف الموقع المسؤول</label><select id="cSiteEmp"><option value="">اختيار موظف الموقع</option></select></div>
+        </div>
+        <div class="field" style="margin-bottom:12px;">
+          <label class="field-label">ملاحظات</label>
+          <textarea id="cNotes" placeholder="ملاحظات وتفاصيل التواصل..." rows="2"></textarea>
+        </div>
+        <button class="primary" onclick="addClient()">تسجيل العميل في النظام</button>
+      </div>
+
+      <div class="card">
+        <h3>قائمة العملاء المتابعين</h3>
+        <div class="grid-filters">
+          <input id="scName" placeholder="🔍 اسم العميل أو الهاتف..." oninput="renderClients()">
+          <input id="scUnit" placeholder="اسم الوحدة..." oninput="renderClients()">
+          <select id="scStatus" onchange="renderClients()">
+            <option value="">كل الحالات</option><option>جديد</option><option>تم التواصل</option><option>لم يرد</option><option>تم تحديد موعد</option><option>تمت الزيارة</option><option>مهتم</option><option>تفاوض</option><option>حجز</option><option>تم البيع</option><option>لم يتم البيع</option><option>مؤجل</option><option>إلغاء</option>
+          </select>
+          <select id="scAdsEmp" onchange="renderClients()"><option value="">كل موظفي الإعلانات</option></select>
+          <select id="scSiteEmp" onchange="renderClients()"><option value="">كل موظفي الموقع</option></select>
+        </div>
+        <div class="table-container">
+          <table id="clientsTable">
+            <thead><tr><th>الاسم</th><th>الهاتف</th><th>الوحدة</th><th>الحالة</th><th>مسؤول الإعلانات</th><th>مسؤول الموقع</th><th>آخر تحديث</th><th>التحكم</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="clientDetail" class="card hidden"></div>
+    </div>
+
+    <!-- ===================== ADMIN TAB ===================== -->
+    <div id="tab-admin" class="hidden">
+      <div class="card">
+        <h3>إدارة وتعديل صلاحيات الموظفين</h3>
+        <p class="hint">أي مستخدم يسجل حسابًا جديدًا في الرابط سيظهر هنا تلقائيًا، ويمكنك تعديل صلاحياته أو حذفه.</p>
+        <div class="table-container">
+          <table id="empTable">
+            <thead><tr><th>اسم الموظف</th><th>البريد الإلكتروني</th><th>الدور الحالي</th><th>تغيير الدور</th><th>العمليات</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>الإحصائيات التحليلية العامة</h3>
+        <div class="stats-grid" id="statsBox"></div>
+      </div>
+
+      <div class="card">
+        <h3>تحليلات الأداء والإنتاجية</h3>
+        <div class="table-container">
+          <table id="performanceTable">
+            <thead><tr><th>اسم الموظف</th><th>إجمالي العملاء المسندين</th><th>الزيارات الناجحة</th><th>البيوع المكتملة</th><th>نسبة تحويل المبيعات</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+// ====== إعدادات مشروع الفايربيز الخاص بك (بدون أي تعديل) ======
+const firebaseConfig = {
+  apiKey: "AIzaSyB5IUQVXfhAMMiHnsjCtacTkr58ovQJLXw",
+  authDomain: "crm-realestate-53337.firebaseapp.com",
+  databaseURL: "https://crm-realestate-53337-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "crm-realestate-53337",
+  storageBucket: "crm-realestate-53337.firebasestorage.app",
+  messagingSenderId: "65050164716",
+  appId: "1:65050164716:web:5f9fb1d85dd84c563a54c9",
+  measurementId: "G-S9QTQVW4JK"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+let currentUser = null;
+let employees = [];
+let ads = [];
+let clients = [];
+
+// المراقبة الفورية لتسجيل الدخول والخروج
+auth.onAuthStateChanged(async user => {
+  if (user) {
+    await syncUserProfile(user);
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    document.getElementById('appTitle').textContent = `مرحبًا ${currentUser.name} | لوحة عمل الـ CRM`;
+    if (currentUser.role === 'admin') document.getElementById('navAdmin').classList.remove('hidden');
+    initRealtimeListeners();
+    showTab('ads');
+  } else {
+    document.getElementById('loginBox').classList.remove('hidden');
+    document.getElementById('app').classList.add('hidden');
+    document.getElementById('navAdmin').classList.add('hidden');
+  }
+});
+
+async function syncUserProfile(user) {
+  const snap = await db.ref('users/' + user.uid).get();
+  if (snap.exists()) {
+    currentUser = { uid: user.uid, ...snap.val() };
+  } else {
+    const allUsers = await db.ref('users').get();
+    const role = allUsers.exists() ? 'ads' : 'admin'; // أول حساب يسجل هو الأدمن تلقائيًا
+    currentUser = { uid: user.uid, name: user.email.split('@')[0], email: user.email, role: role };
+    await db.ref('users/' + user.uid).set(currentUser);
+  }
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const errBox = document.getElementById('loginErr');
+  const btn = document.getElementById('loginBtn');
+  errBox.textContent = '';
+  if (!email || !pass) { errBox.textContent = 'برجاء إدخال البريد وكلمة المرور'; return; }
+  btn.disabled = true; btn.textContent = 'جارِ الدخول...';
+  auth.signInWithEmailAndPassword(email, pass)
+    .catch(e => { errBox.textContent = 'فشل الدخول: ' + e.message; })
+    .finally(() => { btn.disabled = false; btn.textContent = 'دخول'; });
+}
+function logout() { auth.signOut(); }
+
+function showTab(tab) {
+  ['ads', 'clients', 'admin'].forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
+    const btn = document.getElementById('nav' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (btn) btn.classList.toggle('active', t === tab);
+  });
+  if (tab === 'admin') renderAdminPanel();
+  if (tab === 'clients') { fillSelectLists(); renderClients(); }
+  if (tab === 'ads') renderAds();
+}
+
+// ====== ربط ومزامنة البيانات في الوقت الفعلي (Realtime) ======
+function initRealtimeListeners() {
+  db.ref('users').on('value', snap => {
+    employees = [];
+    snap.forEach(child => { employees.push({ uid: child.key, ...child.val() }); });
+    fillSelectLists();
+    if (!document.getElementById('tab-admin').classList.contains('hidden')) renderAdminPanel();
+  });
+
+  db.ref('ads').on('value', snap => {
+    ads = [];
+    snap.forEach(child => { ads.push({ id: child.key, ...child.val() }); });
+    renderAds();
+    fillAdDropdown();
+  });
+
+  db.ref('clients').on('value', snap => {
+    clients = [];
+    snap.forEach(child => { clients.push({ id: child.key, ...child.val() }); });
+    renderClients();
+    processInAppNotifications();
+    if (currentUser.role === 'admin') renderAdminPanel();
+  });
+}
+
+// قواعد الخصوصية وحجب البيانات للموظفين
+function filterVisibleAds() {
+  return currentUser.role === 'admin' ? ads : ads.filter(a => a.ownerUid === currentUser.uid);
+}
+function filterVisibleClients() {
+  return currentUser.role === 'admin' ? clients : clients.filter(c => c.adsEmpUid === currentUser.uid || c.siteEmpUid === currentUser.uid);
+}
+
+// ====== إدارة قسم الإعلانات ======
+async function addAd() {
+  const title = document.getElementById('adTitle').value.trim();
+  if (!title) return alert('عنوان الإعلان حقل إجباري!');
+  await db.ref('ads').push({
+    title, link: document.getElementById('adLink').value,
+    platform: document.getElementById('adPlatform').value,
+    unit: document.getElementById('adUnit').value,
+    date: document.getElementById('adDate').value || new Date().toISOString().split('T')[0],
+    status: document.getElementById('adStatus').value,
+    details: document.getElementById('adDetails').value,
+    ownerUid: currentUser.uid, ownerName: currentUser.name,
+    createdAt: Date.now()
+  });
+  ['adTitle', 'adLink', 'adUnit', 'adDate', 'adDetails'].forEach(id => document.getElementById(id).value = '');
+  alert('تم حفظ الإعلان بنجاح');
+}
+
+function renderAds() {
+  const tbody = document.querySelector('#adsTable tbody'); if (!tbody) return;
+  const fTitle = document.getElementById('searchAdTitle').value.toLowerCase();
+  const fPlatform = document.getElementById('searchAdPlatform').value;
+  const fStatus = document.getElementById('searchAdStatus').value;
+
+  const rows = filterVisibleAds().filter(a => {
+    if (fTitle && !a.title.toLowerCase().includes(fTitle)) return false;
+    if (fPlatform && a.platform !== fPlatform) return false;
+    if (fStatus && a.status !== fStatus) return false;
+    return true;
+  });
+
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">لا توجد إعلانات مطابقة</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.map(a => `<tr>
+      <td data-label="العنوان"><b>${escapeHtml(a.title)}</b></td>
+      <td data-label="المنصة">${escapeHtml(a.platform)}</td>
+      <td data-label="الوحدة">${escapeHtml(a.unit || '-')}</td>
+      <td data-label="التاريخ">${escapeHtml(a.date)}</td>
+      <td data-label="الحالة"><span class="badge ${a.status==='نشط'?'badge-active':a.status==='متوقف'?'badge-pending':'badge-danger'}">${escapeHtml(a.status)}</span></td>
+      <td data-label="بواسطة">${escapeHtml(a.ownerName)}</td>
+      <td data-label="التحكم">${(currentUser.role === 'admin' || a.ownerUid === currentUser.uid) ? `<button class="small danger" onclick="deleteAd('${a.id}')">حذف</button>` : '-'}</td>
+    </tr>`).join('');
+}
+async function deleteAd(id) { if (confirm('هل أنت متأكد من حذف هذا الإعلان نهائيًا؟')) await db.ref('ads/' + id).remove(); }
+
+function fillAdDropdown() {
+  const sel = document.getElementById('cAd'); if (!sel) return;
+  sel.innerHTML = '<option value="">-- ربط بإعلان (اختياري) --</option>';
+  filterVisibleAds().forEach(a => { sel.innerHTML += `<option value="${a.id}">${escapeHtml(a.title)}</option>`; });
+}
+
+function fillSelectLists() {
+  const ids = ['cAdsEmp', 'cSiteEmp', 'scAdsEmp', 'scSiteEmp'];
+  ids.forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    const defaultText = id.includes('sc') ? 'كل الموظفين' : (id.includes('Ads') ? 'موظف الإعلانات' : 'موظف الموقع');
+    el.innerHTML = `<option value="">${defaultText}</option>`;
+    employees.forEach(e => {
+      if(id.includes('sc') || (id.includes('Ads') && e.role === 'ads') || (id.includes('Site') && e.role === 'site') || e.role === 'admin') {
+        el.innerHTML += `<option value="${e.uid}">${escapeHtml(e.name)} (${e.role==='admin'?'أدمن':e.role==='ads'?'إعلانات':'موقع'})</option>`;
+      }
+    });
+  });
+}
+
+// ====== إدارة قسم العملاء وتوزيع المسؤوليات ======
+async function addClient() {
+  const name = document.getElementById('cName').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  if (!name || !phone) return alert('الاسم ورقم الهاتف حقول إجبارية!');
+
+  // كشف ومنع تكرار رقم الهاتف لحماية البيانات
+  if (clients.some(c => c.phone === phone)) return alert('تحذير أمني: رقم الهاتف مسجل بالفعل لعميل آخر بالنظام!');
+
+  const adsEmpUid = document.getElementById('cAdsEmp').value || currentUser.uid;
+  const siteEmpUid = document.getElementById('cSiteEmp').value || currentUser.uid;
+  const adsEmp = employees.find(e => e.uid === adsEmpUid) || currentUser;
+  const siteEmp = employees.find(e => e.uid === siteEmpUid) || currentUser;
+
+  const ref = db.ref('clients').push();
+  const clientData = {
+    name, phone, source: document.getElementById('cSource').value,
+    adId: document.getElementById('cAd').value || null,
+    unit: document.getElementById('cUnit').value,
+    visitDate: document.getElementById('cVisitDate').value,
+    probability: document.getElementById('cProb').value,
+    status: document.getElementById('cStatus').value,
+    notes: document.getElementById('cNotes').value,
+    adsEmpUid, adsEmpName: adsEmp.name, siteEmpUid, siteEmpName: siteEmp.name,
+    createdAt: Date.now(), updatedAt: Date.now(), lastUpdatedBy: currentUser.name
+  };
+
+  await ref.set(clientData);
+  await logTimelineAction(ref.key, `تم إنشاء سجل العميل وإسناده بواسطة ${currentUser.name}`);
+  ['cName', 'cPhone', 'cSource', 'cUnit', 'cVisitDate', 'cNotes'].forEach(id => document.getElementById(id).value = '');
+  alert('تم تسجيل العميل بنجاح');
+}
+
+// خريطة ألوان حالة العميل لعرض بصري صحيح (تجميلية فقط، لا تغيّر أي بيانات)
+function statusBadgeClass(status) {
+  if (status === 'تم البيع') return 'badge-success';
+  if (status === 'لم يتم البيع' || status === 'إلغاء') return 'badge-danger';
+  if (status === 'جديد') return 'badge-info';
+  if (status === 'لم يرد' || status === 'مؤجل') return 'badge-muted';
+  return 'badge-pending'; // تم التواصل، تم تحديد موعد، تمت الزيارة، مهتم، تفاوض، حجز
+}
+
+function renderClients() {
+  const tbody = document.querySelector('#clientsTable tbody'); if (!tbody) return;
+
+  const fText = document.getElementById('scName').value.toLowerCase();
+  const fUnit = document.getElementById('scUnit').value.toLowerCase();
+  const fStatus = document.getElementById('scStatus').value;
+  const fAds = document.getElementById('scAdsEmp').value;
+  const fSite = document.getElementById('scSiteEmp').value;
+
+  const rows = filterVisibleClients().filter(c => {
+    if (fText && !c.name.toLowerCase().includes(fText) && !c.phone.includes(fText)) return false;
+    if (fUnit && !(c.unit || '').toLowerCase().includes(fUnit)) return false; // إصلاح: يمنع توقف الصفحة عند عميل بدون وحدة محددة
+    if (fStatus && c.status !== fStatus) return false;
+    if (fAds && c.adsEmpUid !== fAds) return false;
+    if (fSite && c.siteEmpUid !== fSite) return false;
+    return true;
+  });
+
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="8">لا يوجد عملاء مطابقين لبحثك</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.map(c => {
+    const timeString = new Date(c.updatedAt).toLocaleDateString('ar-EG');
+    return `<tr>
+      <td data-label="الاسم"><b>${escapeHtml(c.name)}</b></td>
+      <td data-label="الهاتف">${escapeHtml(c.phone)}</td>
+      <td data-label="الوحدة">${escapeHtml(c.unit || '-')}</td>
+      <td data-label="الحالة"><span class="badge ${statusBadgeClass(c.status)}">${escapeHtml(c.status)}</span></td>
+      <td data-label="مسؤول الإعلانات">${escapeHtml(c.adsEmpName)}</td>
+      <td data-label="مسؤول الموقع">${escapeHtml(c.siteEmpName)}</td>
+      <td data-label="آخر تحديث">${timeString}</td>
+      <td data-label="التحكم"><button class="primary small" onclick="openClientCard('${c.id}')">تفاصيل وتحديث</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ====== شاشة عرض تفاصيل العميل والـ Timeline وسجل التغييرات الكامل للأدمن ======
+let activeTimelineRef = null;
+function openClientCard(id) {
+  const c = clients.find(x => x.id === id);
+  const box = document.getElementById('clientDetail');
+  box.classList.remove('hidden');
+
+  const statusOptions = ['جديد', 'تم التواصل', 'لم يرد', 'تم تحديد موعد', 'تمت الزيارة', 'مهتم', 'تفاوض', 'حجز', 'تم البيع', 'لم يتم البيع', 'مؤجل', 'إلغاء'];
+  const isAdmin = currentUser.role === 'admin';
+
+  box.innerHTML = `
+    <h3 style="margin-top:0;">ملف العميل: ${escapeHtml(c.name)}
+      <button class="btn" style="font-weight:700" onclick="document.getElementById('clientDetail').classList.add('hidden')">✕ إغلاق</button>
+    </h3>
+    <div class="grid-form" style="margin-bottom:15px;">
+      <div class="field"><label class="field-label">الهاتف</label><input id="edPhone" value="${escapeHtml(c.phone)}" ${!isAdmin?'disabled':''}></div>
+      <div class="field"><label class="field-label">الوحدة المطلوبة</label><input id="edUnit" value="${escapeHtml(c.unit || '')}"></div>
+      <div class="field"><label class="field-label">المصدر</label><input id="edSource" value="${escapeHtml(c.source || '')}" ${!isAdmin?'disabled':''}></div>
+      <div class="field"><label class="field-label">تاريخ الزيارة/المعاينة</label><input id="edVisitDate" type="datetime-local" value="${c.visitDate || ''}"></div>
+      <div class="field"><label class="field-label">احتمالية الشراء</label>
+        <select id="edProb">
+          <option ${c.probability==='منخفضة'?'selected':''}>منخفضة</option>
+          <option ${c.probability==='متوسطة'?'selected':''}>متوسطة</option>
+          <option ${c.probability==='عالية'?'selected':''}>عالية</option>
+        </select>
+      </div>
+      <div class="field"><label class="field-label">حالة العميل</label>
+        <select id="edStatus">${statusOptions.map(s => `<option ${s===c.status?'selected':''}>${s}</option>`).join('')}</select>
+      </div>
+    </div>
+
+    <div class="grid-form" style="background:#f6f7fa; padding:12px; border-radius:10px; margin-bottom:14px; border:1px solid var(--border);">
+      <div class="field"><label class="field-label">مسؤول التسويق/الإعلانات</label>
+        <select id="edAdsEmp" ${!isAdmin?'disabled':''}></select>
+      </div>
+      <div class="field"><label class="field-label">مسؤول الموقع/المعاينة</label>
+        <select id="edSiteEmp" ${!isAdmin?'disabled':''}></select>
+      </div>
+    </div>
+
+    <div class="field"><label class="field-label">ملاحظات المتابعة الحالية</label><textarea id="edNotes" rows="2">${escapeHtml(c.notes || '')}</textarea></div>
+
+    <div class="flex-actions">
+      <button class="primary" onclick="updateClientData('${c.id}')">تحديث وحفظ التغييرات</button>
+      <button class="btn" onclick="document.getElementById('clientDetail').classList.add('hidden')">إغلاق النافذة</button>
+    </div>
+
+    <h4 style="margin-top:18px; font-size:13.5px; border-top:1px solid var(--border); padding-top:12px; font-weight:800;">🕒 سجل النشاط والجدول الزمني للإجراءات</h4>
+    <div class="timeline" id="timelineBox">جارِ تحميل السجل الزمني...</div>
+  `;
+
+  // تعبئة موظفي التعديل بالداخل
+  const eAds = document.getElementById('edAdsEmp'); const eSite = document.getElementById('edSiteEmp');
+  employees.forEach(e => {
+    eAds.innerHTML += `<option value="${e.uid}" ${e.uid===c.adsEmpUid?'selected':''}>${escapeHtml(e.name)}</option>`;
+    eSite.innerHTML += `<option value="${e.uid}" ${e.uid===c.siteEmpUid?'selected':''}>${escapeHtml(e.name)}</option>`;
+  });
+
+  if (activeTimelineRef) activeTimelineRef.off();
+  activeTimelineRef = db.ref('clients/' + id + '/timeline');
+  activeTimelineRef.orderByChild('time').on('value', snap => {
+    const tBox = document.getElementById('timelineBox'); if (!tBox) return;
+    if (!snap.exists()) { tBox.innerHTML = '<p style="color:var(--text-muted); font-size:12px;">لا يوجد سجل عمليات متاح.</p>'; return; }
+    let list = []; snap.forEach(ch => { list.push(ch.val()); });
+    list.sort((a,b) => b.time - a.time); // الأحدث أولًا
+    tBox.innerHTML = list.map(t => `<div class="timeline-item"><b>${escapeHtml(t.text)}</b><span class="t-time">${new Date(t.time).toLocaleString('ar-EG')}</span></div>`).join('');
+  });
+}
+
+async function updateClientData(id) {
+  const c = clients.find(x => x.id === id);
+  const nStatus = document.getElementById('edStatus').value;
+  const nUnit = document.getElementById('edUnit').value.trim();
+  const nVisit = document.getElementById('edVisitDate').value;
+  const nProb = document.getElementById('edProb').value;
+  const nNotes = document.getElementById('edNotes').value;
+  const nAdsUid = document.getElementById('edAdsEmp').value;
+  const nSiteUid = document.getElementById('edSiteEmp').value;
+
+  let changes = [];
+  if(c.status !== nStatus) changes.push(`تعديل الحالة إلى [${nStatus}]`);
+  if(c.unit !== nUnit) changes.push(`تعديل الوحدة إلى [${nUnit}]`);
+  if(c.visitDate !== nVisit) changes.push(`تعديل الموعد لـ [${nVisit.replace('T', ' ')}]`);
+  if(c.probability !== nProb) changes.push(`تعديل الاحتمالية لـ [${nProb}]`);
+  if(c.adsEmpUid !== nAdsUid || c.siteEmpUid !== nSiteUid) changes.push(`إعادة توزيع وإسناد الموظفين المسؤولين عن العميل`);
+
+  if(changes.length === 0 && c.notes === nNotes) return alert('لم تقم بإجراء أي تغييرات لحفظها.');
+
+  const empAdsName = employees.find(e => e.uid === nAdsUid)?.name || c.adsEmpName;
+  const empSiteName = employees.find(e => e.uid === nSiteUid)?.name || c.siteEmpName;
+
+  const updates = {
+    status: nStatus, unit: nUnit, visitDate: nVisit, probability: nProb, notes: nNotes,
+    adsEmpUid: nAdsUid, adsEmpName: empAdsName, siteEmpUid: nSiteUid, siteEmpName: empSiteName,
+    updatedAt: Date.now(), lastUpdatedBy: currentUser.name
+  };
+
+  if(currentUser.role === 'admin') {
+    updates.phone = document.getElementById('edPhone').value.trim();
+    updates.source = document.getElementById('edSource').value.trim();
+  }
+
+  await db.ref('clients/' + id).update(updates);
+  await logTimelineAction(id, `قام ${currentUser.name} بتحديث: ${changes.join(' و ')}`);
+  alert('تم حفظ وتوثيق جميع التعديلات في سجل العميل فورًا');
+  document.getElementById('clientDetail').classList.add('hidden');
+}
+
+async function logTimelineAction(clientId, text) {
+  await db.ref('clients/' + clientId + '/timeline').push({ text, time: Date.now(), byUid: currentUser.uid, byName: currentUser.name });
+}
+
+// ====== الإشعارات الذكية المدمجة والتذكيرات بالمواعيد قريبة المدى ======
+function processInAppNotifications() {
+  const area = document.getElementById('notificationArea');
+  const list = document.getElementById('notificationList');
+  list.innerHTML = '';
+  let activeNotificationsCount = 0;
+  const now = Date.now();
+
+  clients.forEach(c => {
+    // 1. تنبيه الموظف بالعملاء الجدد تماماً الذين أسندوا إليه ولم يتم التواصل معهم
+    if ((c.adsEmpUid === currentUser.uid || c.siteEmpUid === currentUser.uid) && c.status === 'جديد') {
+      activeNotificationsCount++;
+      list.innerHTML += `<div class="notification-item"><span>🆕 عميل جديد مسند إليك بحاجة لتواصل فورًا: <b>${escapeHtml(c.name)}</b></span></div>`;
+    }
+    // 2. تنبيه وتذكير ذكي للمعاينة أو الزيارة القادمة خلال الـ 24 ساعة القادمة
+    if ((c.adsEmpUid === currentUser.uid || c.siteEmpUid === currentUser.uid) && c.visitDate) {
+      const vTime = new Date(c.visitDate).getTime();
+      const diffHours = (vTime - now) / (1000 * 60 * 60);
+      if (diffHours > 0 && diffHours <= 24) {
+        activeNotificationsCount++;
+        list.innerHTML += `<div class="notification-item" style="border-right: 3px solid var(--warning)"><span>⏰ تذكير موعد معاينة خلال 24 ساعة للعميل: <b>${escapeHtml(c.name)}</b> - الموعد: ${c.visitDate.replace('T', ' ')}</span></div>`;
+      }
+    }
+  });
+
+  area.classList.toggle('hidden', activeNotificationsCount === 0);
+}
+
+// ====== لوحة تحكم الأدمن والتحليلات وحساب نسب التحويل للشركات ======
+function renderAdminPanel() {
+  const tbody = document.querySelector('#empTable tbody'); if(!tbody) return;
+  tbody.innerHTML = employees.map(e => `<tr>
+    <td data-label="اسم الموظف"><b>${escapeHtml(e.name)}</b></td>
+    <td data-label="البريد الإلكتروني">${escapeHtml(e.email)}</td>
+    <td data-label="الدور الحالي"><span class="badge badge-active">${e.role==='admin'?'أدمن اللوحة':e.role==='ads'?'موظف إعلانات':'موظف موقع معاينات'}</span></td>
+    <td data-label="تغيير الدور">
+      <select onchange="updateUserRole('${e.uid}', this.value)" ${e.uid===currentUser.uid?'disabled':''}>
+        <option value="ads" ${e.role==='ads'?'selected':''}>موظف إعلانات</option>
+        <option value="site" ${e.role==='site'?'selected':''}>موظف موقع</option>
+        <option value="admin" ${e.role==='admin'?'selected':''}>أدمن نظام</option>
+      </select>
+    </td>
+    <td data-label="العمليات">${e.uid !== currentUser.uid ? `<button class="small danger" onclick="deleteUserRecord('${e.uid}')">حذف الموظف</button>` : '-'}</td>
+  </tr>`).join('');
+
+  // معالجة وحساب الإحصائيات التحليلية المعقدة للأدمن
+  const totalC = clients.length;
+  const totalA = ads.length;
+  const countSales = clients.filter(c => c.status === 'تم البيع').length;
+  const countVisits = clients.filter(c => c.status === 'تمت الزيارة').length;
+  const countInterested = clients.filter(c => c.status === 'مهتم').length;
+
+  // حساب المنصات والوحدات الأكثر طلباً
+  let platformMap = {}; let unitMap = {};
+  clients.forEach(c => {
+    if(c.unit) unitMap[c.unit] = (unitMap[c.unit] || 0) + 1;
+    const relatedAd = ads.find(a => a.id === c.adId);
+    if(relatedAd && relatedAd.platform) {
+      platformMap[relatedAd.platform] = (platformMap[relatedAd.platform] || 0) + 1;
+    }
+  });
+
+  const topPlatform = Object.keys(platformMap).sort((a,b)=>platformMap[b]-platformMap[a])[0] || 'لا يوجد بيانات';
+  const topUnit = Object.keys(unitMap).sort((a,b)=>unitMap[b]-unitMap[a])[0] || 'لا يوجد بيانات';
+
+  document.getElementById('statsBox').innerHTML = `
+    <div class="stat-card"><b>${totalC}</b><span>إجمالي العملاء بالنظام</span></div>
+    <div class="stat-card"><b>${totalA}</b><span>إجمالي الإعلانات النشطة</span></div>
+    <div class="stat-card accent"><b>${countVisits}</b><span>مواعيـد زيارات تمت</span></div>
+    <div class="stat-card accent"><b>${countInterested}</b><span>عملاء مهتمين بالتفاوض</span></div>
+    <div class="stat-card" style="border-top-color:var(--success)"><b>${countSales}</b><span>مبيعات ناجحة ومكتملة</span></div>
+    <div class="stat-card"><b style="font-size:15px; padding:7px 0;">${escapeHtml(topPlatform)}</b><span>أفضل منصة تسويقية جذباً للعملاء</span></div>
+    <div class="stat-card"><b style="font-size:15px; padding:7px 0;">${escapeHtml(topUnit)}</b><span>العقار الأكثر طلباً واستعلاماً</span></div>
+  `;
+
+  // جدول كفاءة الموظفين ونسب تحويل المبيعات (Conversion Rates)
+  const perfTbody = document.querySelector('#performanceTable tbody'); if(!perfTbody) return;
+  perfTbody.innerHTML = '';
+  employees.forEach(e => {
+    const assignedClients = clients.filter(c => c.adsEmpUid === e.uid || c.siteEmpUid === e.uid);
+    const empSales = assignedClients.filter(c => c.status === 'تم البيع').length;
+    const empVisits = assignedClients.filter(c => c.status === 'تمت الزيارة').length;
+    const conversionRate = assignedClients.length > 0 ? ((empSales / assignedClients.length) * 100).toFixed(1) : 0;
+
+    perfTbody.innerHTML += `<tr>
+      <td data-label="اسم الموظف"><b>${escapeHtml(e.name)}</b></td>
+      <td data-label="إجمالي العملاء المسندين">${assignedClients.length} عملاء</td>
+      <td data-label="الزيارات الناجحة">${empVisits} زيارة</td>
+      <td data-label="البيوع المكتملة"><span style="color:var(--success); font-weight:bold">${empSales} بيع</span></td>
+      <td data-label="نسبة تحويل المبيعات"><b>${conversionRate}%</b></td>
+    </tr>`;
+  });
+}
+
+async function updateUserRole(uid, newRole) {
+  await db.ref('users/' + uid + '/role').set(newRole);
+  alert('تم تحديث رتبة وصلاحيات الموظف فوراً');
+}
+async function deleteUserRecord(uid) {
+  if (confirm('تأكيد حذف بيانات الموظف من قاعدة البيانات؟ (ملاحظة: لن يستطيع رؤية بيانات الموظفين الآخرين)')) {
+    await db.ref('users/' + uid).remove();
+  }
+}
+
+// دالة حماية أمنية وتطهير المدخلات لـ منع ثغرات الـ XSS
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div'); div.textContent = str; return div.innerHTML;
+}
+</script>
+</body>
+</html>
